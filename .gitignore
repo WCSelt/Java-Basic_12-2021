@@ -8,6 +8,8 @@
 *.iml
 *.iws
 *.class
+out/
+Java-Basic_12-2021/
 
 # Mac
 .DS_Store
@@ -17,4 +19,4 @@ log/
 target/
 
 #Idea
-/out/
+
