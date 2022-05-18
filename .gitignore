@@ -5,9 +5,12 @@
 
 # Intellij
 .idea/
-/out/*
+/out
 *.iml
 *.iws
+
+# Mac
+.DS_Store
 
 # Maven
 log/
