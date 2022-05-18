@@ -5,7 +5,7 @@
 
 # Intellij
 .idea/
-/out/production/Java-Basic_12-2021/
+/out/
 *.iml
 *.iws
 
@@ -15,5 +15,4 @@
 # Maven
 log/
 target/
-
 
