@@ -1,2 +1,3 @@
-Java-Basic_12-2021/.idea/
-Java-Basic_12-2021/out/
+.idea/
+out/
+*.iml
