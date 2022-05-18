@@ -4,13 +4,14 @@
 .settings/
 
 # Intellij
-.idea/
+.idea
 *.iml
 *.iws
 *.class
 /out/
 */Java-Basic_12-2021
 /*/out
+/workspace.xml
 
 # Mac
 .DS_Store
