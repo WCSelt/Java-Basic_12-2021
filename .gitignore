@@ -8,15 +8,7 @@
 *.iml
 *.iws
 *.class
-/out
-/out/
 out/
-/out/production
-/out/production/Java-Basic_12-2021/
-/out/production/Java-Basic_12-2021/*
-*/Java-Basic_12-2021
-/*/out
-/workspace.xml
 
 # Mac
 .DS_Store
