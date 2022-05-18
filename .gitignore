@@ -8,8 +8,9 @@
 *.iml
 *.iws
 *.class
-out/
-Java-Basic_12-2021/
+/out/
+Java-Basic_12-2021
+/*/out
 
 # Mac
 .DS_Store
