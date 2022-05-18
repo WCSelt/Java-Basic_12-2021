@@ -9,7 +9,7 @@
 *.iws
 *.class
 /out/
-Java-Basic_12-2021
+*/Java-Basic_12-2021
 /*/out
 
 # Mac
