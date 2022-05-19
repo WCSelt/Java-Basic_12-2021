@@ -10,10 +10,14 @@ public class Questionnaire implements UserSurvey {
     final int[] personAnswers = new int[TestOption.values().length];
     private String result;
 
-    Questionnaire() throws IOException {
+    Questionnaire(){
         System.out.println("Как вас зовут?");
         while (person.getUserName().isBlank()) {
-            person.setUserName(askPerson());
+            try {
+                person.setUserName(askPerson());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (person.getUserName().isBlank()) {
                 System.err.println("Имя не должно быть пустым.");
                 System.out.println("Пожалуйста, введите своё имя:");
