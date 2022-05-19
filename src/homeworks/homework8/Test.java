@@ -37,4 +37,8 @@ class Test {
         }
         return questionWithOptions.toString();
     }
+
+    Questionnaire getQuestionnaire(){
+        return questionnaire;
+    }
 }
