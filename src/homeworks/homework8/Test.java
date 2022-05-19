@@ -3,8 +3,8 @@ package homeworks.homework8;
 class Test {
     private final Person person;
     private final TestOption[] testOption = TestOption.values();
-    private final static String answerTemplateForError = "В качестве ответа принимаются только цифры в диапазоне от 1 до %s";
-    private final static String ANSWER_TemplateForIndex = "Пожалуйста, выберите ответ в диапазоне от 1 до %s и введите его номер";
+    private final static String ANSWER_TEMPLATE_FOR_PARSING_ERROR = "В качестве ответа принимаются только цифры в диапазоне от 1 до %s";
+    private final static String ANSWER_TEMPLATE_FOR_INDEX_ERROR = "Пожалуйста, выберите ответ в диапазоне от 1 до %s и введите его номер";
 
     Test(Person person) {
         this.person = person;
@@ -19,10 +19,10 @@ class Test {
                     if (personAnswer > 0 && personAnswer <= testOption[i].getQuestionOptions().length) {
                         person.personAnswers[i] = personAnswer;
                     } else {
-                        System.err.printf(ANSWER_TemplateForIndex,testOption[i].getQuestionOptions().length);
+                        System.err.printf(ANSWER_TEMPLATE_FOR_INDEX_ERROR+"\n",testOption[i].getQuestionOptions().length);
                     }
                 } catch (Exception e) {
-                    System.err.printf(answerTemplateForError+"\n",testOption[i].getQuestionOptions().length);
+                    System.err.printf(ANSWER_TEMPLATE_FOR_PARSING_ERROR+"\n",testOption[i].getQuestionOptions().length);
                 }
             }
         }
