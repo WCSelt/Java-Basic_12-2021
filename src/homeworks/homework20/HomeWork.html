@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Домашняя работа</title>
+
+    <style>
+        h1,
+        h2,
+        h3 {
+            color: rgb(57, 60, 63);
+        }
+
+        .students-tab {
+            border: 1px solid steelblue;
+            width: 80%;
+            border-collapse: collapse;
+            margin-bottom: 50px;
+        }
+
+        .students-tab tr td {
+            border: 1px solid rgb(95, 102, 107);
+        }
+
+        .students-tab-col1 {
+            width: 250px;
+        }
+
+        .students-tab-col2 {
+            width: 25px;
+        }
+
+        .students-tab-col3 {
+            width: 100px;
+        }
+
+        .students-tab-col4 {
+            width: 25px;
+        }
+        .students-tab-empty {
+            height: 18px;
+        }
+    </style>
+
+    <script>
+
+        function addStudent() {
+            let studentInfo = [document.getElementById("studentName").value,
+            document.getElementById("gender").value,
+            document.getElementById("dateOfBirth").value,
+            age()];
+
+
+            let table = document.getElementById("studentsTab");
+            let rows = document.getElementById("tableHead").rows;
+            let tableBody = document.getElementById("tableBody");
+
+            let list = rows[rows.length - 1];
+            let cells = list.cells.length;
+            let rowsIso = tableBody.insertRow(-1);
+
+            for (let j = 0; j < cells; j++) {
+                let cellsIso = rowsIso.insertCell(-1);
+                cellsIso.innerHTML = studentInfo[j];
+            }
+
+            let avgCell = document.getElementById("average");
+            avgCell.innerHTML = average();
+        }
+
+        function average() {
+            var table = document.getElementsByTagName("table")[0], sum = 0;
+            var tr = table.getElementsByTagName("tr");
+            var len = 0, i = tr.length;
+            while (i--) {
+                if (tr[i].childNodes[3] != null) {
+                    if (+tr[i].childNodes[3].innerHTML || +tr[i].childNodes[3].childNodes[0].innerHTML) {
+                        sum += +tr[i].childNodes[3].innerHTML || +tr[i].childNodes[3].childNodes[0].innerHTML;
+                        len++;
+                    }
+                }
+            }
+            return (sum / len);
+        }
+
+        function age() {
+            let now = new Date();
+            let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            let dob = new Date(document.getElementById("dateOfBirth").value);
+            let dobnow = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
+            let age;
+
+            age = today.getFullYear() - dob.getFullYear();
+            if (today < dobnow) {
+                age = age - 1;
+            }
+            return age;
+        }
+
+    </script>
+
+</head>
+
+<body>
+    <h2>Домашняя работа</h2>
+
+    <h3>Таблица студентов</h3>
+
+
+    <table class="students-tab" id="studentsTab">
+
+        <thead id="tableHead">
+            <tr>
+                <td class="students-tab-col1">Имя студента</td>
+                <td class="students-tab-col2">Пол</td>
+                <td class="students-tab-col3">Дата рождения</td>
+                <td class="students-tab-col4">Возраст</td>
+            </tr>
+        </thead>
+
+        <tbody id="tableBody"></tbody>
+
+        <tfoot>
+            <tr>
+                <td class="students-tab-empty" colspan="4"></td>
+            </tr>
+            <tr>
+                <td colspan="3">Cредний возраст студентов</td>
+                <td id="average">0</td>
+            </tr>           
+        </tfoot>
+
+    </table>
+
+    <div class="input-form">
+
+        <label>
+            Новый студент:
+            <input id="studentName" type="text" value="ФИО">
+            <select name="gender" id="gender">
+                <option value="М">М</option>
+                <option value="Ж">Ж</option>
+            </select>
+            <input id="dateOfBirth" type="date" value=1970-01-01>
+            <button onclick="addStudent()">Добавить</button>
+        </label>
+        
+    </div>
+</body>
+</html>
