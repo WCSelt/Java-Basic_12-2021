@@ -1,4 +1,4 @@
-package ru.otus.game;
+package homeworks.homework16.game;
 
 public class Game {
 

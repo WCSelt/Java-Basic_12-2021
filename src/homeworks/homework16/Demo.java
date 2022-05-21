@@ -1,6 +1,6 @@
-package ru.otus;
+package homeworks.homework16;
 
-import ru.otus.game.*;
+import homeworks.homework16.game.*;
 
 public class Demo {
 
