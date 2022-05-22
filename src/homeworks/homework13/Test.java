@@ -1,6 +1,6 @@
 package homeworks.homework13;
 
-public class Test {
+class Test {
     private final Questionnaire questionnaire;
     private final TestOption[] testOption = TestOption.values();
     private final static String ANSWER_TEMPLATE_FOR_PARSING_ERROR = "В качестве ответа принимаются только цифры в диапазоне от 1 до %s";
