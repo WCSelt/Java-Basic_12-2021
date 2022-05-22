@@ -1,8 +1,8 @@
-package ru.otus;
+package homeworks.homework16;
 
+import homeworks.homework16.tests.AllTests;
 
 public class HomeWork {
-
     /*
         Заготовка для ДЗ представляет собой игру в кости.
         При вызове game.playGame(), два игрока кидают кости.
@@ -14,7 +14,6 @@ public class HomeWork {
         Информацию о пройденном тесте предлагается выводить в System.out, а об упавшем в System.err
      */
     public static void main(String[] args) {
-
+        new AllTests().runTests();
     }
-    
 }
