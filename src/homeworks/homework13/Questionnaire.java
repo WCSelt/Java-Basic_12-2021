@@ -1,8 +1,12 @@
 package homeworks.homework13;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Questionnaire implements UserSurvey {
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -61,22 +65,33 @@ public class Questionnaire implements UserSurvey {
                 String personAnswer = askPerson();
                 if (personAnswer.equalsIgnoreCase("да")){
                     getDetailedResult();
-                    throw new Exception();
+                    throw new IOException();
                 } else if (personAnswer.equalsIgnoreCase("нет")) {
-                    throw new Exception();
+                    throw new IOException();
                 }
                 System.err.println("Пожалуйста, примите решение.");
             }
         } catch (IOException e) {
-            throw new Exception("Что-то произошло чуть выше глубин кода", e);
-        } catch (Exception e){
             reader.close();
             System.out.println("Всего доброго.");
             System.exit(0);
+        } catch (Exception e){
+            throw new Exception("Что-то произошло чуть выше глубин кода", e);
         }
     }
 
-    private void getDetailedResult(){
+    private void getDetailedResult() throws Exception {
+        System.out.println("Пожалуйста, укажите директорию, в которой хотите разместить файл");
+        try {
+            Path path = Paths.get(askPerson());
+            if (Files.exists(path)) {
+                try {
 
+                    File file = new File("asd")
+                }
+            }
+        } catch (Exception e) {
+            throw new IOException();
+        }
     }
 }
