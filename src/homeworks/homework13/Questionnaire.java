@@ -9,7 +9,6 @@ public class Questionnaire implements UserSurvey {
     private final Person person = new Person();
     final int[] personAnswers = new int[TestOption.values().length];
     private String result;
-    private boolean checkAgreementForDetailedResult = false;
 
     Questionnaire(){
         System.out.println("Как вас зовут?");
@@ -57,28 +56,27 @@ public class Questionnaire implements UserSurvey {
 
     void checkAgreementForDetailedResult() throws Exception {
         try {
-            while (!(checkAgreementForDetailedResult)) {
+            while (true) {
                 System.out.println("Желаете получить подробный результат? (да/нет)");
                 String personAnswer = askPerson();
                 if (personAnswer.equalsIgnoreCase("да")){
-                    checkAgreementForDetailedResult = true;
                     getDetailedResult();
+                    throw new Exception();
                 } else if (personAnswer.equalsIgnoreCase("нет")) {
-                    checkAgreementForDetailedResult = true;
                     throw new Exception();
                 }
+                System.err.println("Пожалуйста, примите решение.");
             }
-            System.err.println("Пожалуйста, примите решение.");
         } catch (IOException e) {
             throw new Exception("Что-то произошло чуть выше глубин кода", e);
         } catch (Exception e){
             reader.close();
-            System.out.println("Всего доброго");
+            System.out.println("Всего доброго.");
             System.exit(0);
         }
     }
 
-    void getDetailedResult(){
+    private void getDetailedResult(){
 
     }
 }
