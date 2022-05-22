@@ -1,6 +1,6 @@
-package homeworks.homework16;
+package homeworks.homework16.app;
 
-import homeworks.homework16.game.*;
+import homeworks.homework16.app.game.*;
 
 public class Demo {
 
