@@ -7,6 +7,9 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Questionnaire implements UserSurvey {
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -87,11 +90,15 @@ public class Questionnaire implements UserSurvey {
             if (Files.exists(path)) {
                 try {
 
-                    File file = new File("asd")
+                    File file = new File(path+"TestResult_"+getDate());
                 }
             }
         } catch (Exception e) {
             throw new IOException();
         }
+    }
+
+    private String getDate() {
+        return new SimpleDateFormat("dd-MM-yyyy_\"at\"_HH:mm:ss").format(new Date());
     }
 }
