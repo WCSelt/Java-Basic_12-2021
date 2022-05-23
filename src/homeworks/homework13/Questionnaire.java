@@ -4,7 +4,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,7 +16,7 @@ public class Questionnaire implements UserSurvey {
     private String result;
     private final List<String> listWithTemplateForDetailedResult = new ArrayList<>();
 
-    Questionnaire(){
+    Questionnaire() {
         System.out.println("Как вас зовут?");
         while (person.getUserName().isBlank()) {
             try {
@@ -42,23 +41,24 @@ public class Questionnaire implements UserSurvey {
         System.out.println("Здравствуйте, " + person.getUserName() + "!");
     }
 
-    int getPersonAnswer (int index){
+    int getPersonAnswer(int index) {
         return personAnswers[index];
     }
 
     String getResult() {
         int countTrueAnswers = 0, countWrongAnswers = 0;
-        listWithTemplateForDetailedResult.add(person.getUserName());
+        listWithTemplateForDetailedResult.add("Имя тестируемого: " + person.getUserName() + "\n");
+        listWithTemplateForDetailedResult.add("Дата: " + getDate() + "\n");
         for (int i = 0; i < personAnswers.length; i++) {
             if (personAnswers[i] == TestOption.values()[i].getTrueTestAnswer()) {
                 addTestOptionToList(TestOption.values()[i].getQuestion(),
-                        TestOption.values()[i].getQuestionOptions()[personAnswers[i]],
-                        TestOption.values()[i].getQuestionOptions()[TestOption.values()[i].getTrueTestAnswer()]);
+                        TestOption.values()[i].getQuestionOptions()[personAnswers[i] - 1],
+                        TestOption.values()[i].getQuestionOptions()[TestOption.values()[i].getTrueTestAnswer() - 1]);
                 countTrueAnswers++;
             } else {
                 addTestOptionToList(TestOption.values()[i].getQuestion(),
-                        TestOption.values()[i].getQuestionOptions()[personAnswers[i]],
-                        TestOption.values()[i].getQuestionOptions()[TestOption.values()[i].getTrueTestAnswer()]);
+                        TestOption.values()[i].getQuestionOptions()[personAnswers[i] - 1],
+                        TestOption.values()[i].getQuestionOptions()[TestOption.values()[i].getTrueTestAnswer() - 1]);
                 countWrongAnswers++;
             }
         }
@@ -74,7 +74,7 @@ public class Questionnaire implements UserSurvey {
             while (true) {
                 System.out.println("Желаете получить подробный результат? (да/нет)");
                 String personAnswer = askPerson();
-                if (personAnswer.equalsIgnoreCase("да")){
+                if (personAnswer.equalsIgnoreCase("да")) {
                     getDetailedResult();
                     throw new IOException();
                 } else if (personAnswer.equalsIgnoreCase("нет")) {
@@ -86,7 +86,7 @@ public class Questionnaire implements UserSurvey {
             reader.close();
             System.out.println("Всего доброго.");
             System.exit(0);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("Что-то произошло в методе checkAgreementForDetailedResult()", e);
         }
     }
@@ -94,16 +94,30 @@ public class Questionnaire implements UserSurvey {
     private void getDetailedResult() throws Exception {
         System.out.println("Пожалуйста, укажите директорию, в которой хотите разместить файл");
         try {
-            Path path = Paths.get(askPerson());
-            if (Files.exists(path)) {
-                File file = new File(path.toFile(),"TestResult_"+getDate()+".txt");
-                try (FileOutputStream fileOutputStream = new FileOutputStream(file);
-                        BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(fileOutputStream))){
-
-
+            while (true) {
+                String pathName = askPerson();
+                if (pathName.equalsIgnoreCase("exit")) {
+                    throw new IOException("была команда exit");
+                }
+                Path path = Paths.get(pathName);
+                if (Files.exists(path)) {
+                    File file = new File(path.toFile(), "TestResult_" + getDate() + ".txt");
+                    try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+                         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileOutputStream))) {
+                        for (int i = 0; i < listWithTemplateForDetailedResult.size(); i++) {
+                            writer.write(listWithTemplateForDetailedResult.get(i));
+                            writer.newLine();
+                        }
+                    } catch (Exception e) {
+                        throw new Exception("Что-то случилось во время записи", e);
+                    }
+                    throw new IOException();
+                } else {
+                    System.err.println("Проверьте, пожалуйста, указанную вами директорию либо введите \"exit\"" +
+                            " для выхода");
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new IOException();
         }
     }
@@ -113,7 +127,7 @@ public class Questionnaire implements UserSurvey {
         return dateFormat.format(new Date());
     }
 
-    private void addTestOptionToList(String question, String personAnswer, String testAnswer){
-        listWithTemplateForDetailedResult.add(question+": Ваш ответ: "+personAnswer+"Правильный ответ: "+testAnswer);
+    private void addTestOptionToList(String question, String personAnswer, String testAnswer) {
+        listWithTemplateForDetailedResult.add(question + ": \nВаш ответ: " + personAnswer + "  Правильный ответ: " + testAnswer + "\n");
     }
 }
