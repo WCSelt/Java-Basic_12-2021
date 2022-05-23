@@ -5,32 +5,32 @@ import java.util.Collections;
 import java.math.BigDecimal;
 
 public class PrescriptionPrice {
-    private BigDecimal amount;
+    private final BigDecimal amount;
 
-    public PrescriptionPrice(long l) {
-        String s = String.valueOf(l);
-        if (!s.contains("."))
-            s += ".0";
-        this.amount = new BigDecimal(s);
+    public PrescriptionPrice(long number) {
+        String numberString = String.valueOf(number);
+        if (!numberString.contains("."))
+            numberString += ".0";
+        this.amount = new BigDecimal(numberString);
     }
 
-    public PrescriptionPrice(double l) {
-        String s = String.valueOf(l);
-        if (!s.contains("."))
-            s += ".0";
-        this.amount = new BigDecimal(s);
+    public PrescriptionPrice(double number) {
+        String numberString = String.valueOf(number);
+        if (!numberString.contains("."))
+            numberString += ".0";
+        this.amount = new BigDecimal(numberString);
     }
 
-    public PrescriptionPrice(String s) {
-        if (!s.contains("."))
-            s += ".0";
-        this.amount = new BigDecimal(s);
+    public PrescriptionPrice(String number) {
+        if (!number.contains("."))
+            number += ".0";
+        this.amount = new BigDecimal(number);
     }
 
     /**
      * <br/>     * Вернуть сумму как строку<br/>
      */
-    public String asString() {
+    public String getAmountAsString() {
         return amount.toString();
     }
 
@@ -59,6 +59,9 @@ public class PrescriptionPrice {
                 {"миллион", "миллиона", "миллионов", "0"},
                 {"миллиард", "миллиарда", "миллиардов", "0"},
                 {"триллион", "триллиона", "триллионов", "0"},
+                {"квадрилион","квадрилиона","квадрилионов","0"},
+                {"квинтиллион","квинтиллиона","квинтиллионов","0"},
+                {"секстиллион","секстиллиона","секстиллионов","0"},
                 // можно добавлять дальше секстиллионы и т.д.
         };
         // получаем отдельно рубли и копейки
@@ -69,9 +72,9 @@ public class PrescriptionPrice {
             if (penny < 10)
                 penny *= 10;
         }
-        String pennys = String.valueOf(penny);
-        if (pennys.length() == 1)
-            pennys = "0" + pennys;
+        String pennyString = String.valueOf(penny);
+        if (pennyString.length() == 1)
+            pennyString = "0" + pennyString;
         long currency_tmp = currency;
         // Разбиватель суммы на сегменты по 3 цифры с конца
         ArrayList segments = new ArrayList();
@@ -126,7 +129,7 @@ public class PrescriptionPrice {
         if (checkPenny) {
             o = o.replaceAll(" {2,}", " ");
         } else {
-            o = o + "" + pennys + " " + morph(penny, forms[0][0], forms[0][1], forms[0][2]);
+            o = o + "" + pennyString + " " + morph(penny, forms[0][0], forms[0][1], forms[0][2]);
             o = o.replaceAll(" {2,}", " ");
         }
         return o;
