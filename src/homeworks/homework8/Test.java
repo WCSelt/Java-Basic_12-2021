@@ -1,28 +1,28 @@
 package homeworks.homework8;
 
 class Test {
-    private final Person person;
+    private final Questionnaire questionnaire;
     private final TestOption[] testOption = TestOption.values();
-    private final static String answerTemplateForError = "В качестве ответа принимаются только цифры в диапазоне от 1 до %s";
-    private final static String ANSWER_TemplateForIndex = "Пожалуйста, выберите ответ в диапазоне от 1 до %s и введите его номер";
+    private final static String ANSWER_TEMPLATE_FOR_PARSING_ERROR = "В качестве ответа принимаются только цифры в диапазоне от 1 до %s";
+    private final static String ANSWER_TEMPLATE_FOR_INDEX_ERROR = "Пожалуйста, выберите ответ в диапазоне от 1 до %s и введите его номер";
 
-    Test(Person person) {
-        this.person = person;
+    Test() {
+        this.questionnaire = new Questionnaire();
     }
 
     void beginTest() {
         for (int i = 0; i < testOption.length; i++) {
             System.out.println(getQuestionWithOptions(i));
-            while (person.personAnswers[i] == 0) {
+            while (questionnaire.getPersonAnswer(i) == 0) {
                 try {
-                    int personAnswer = Integer.parseInt(person.askPerson());
+                    int personAnswer = Integer.parseInt(questionnaire.askPerson());
                     if (personAnswer > 0 && personAnswer <= testOption[i].getQuestionOptions().length) {
-                        person.personAnswers[i] = personAnswer;
+                        questionnaire.personAnswers[i] = personAnswer;
                     } else {
-                        System.err.printf(ANSWER_TemplateForIndex,testOption[i].getQuestionOptions().length);
+                        System.err.printf(ANSWER_TEMPLATE_FOR_INDEX_ERROR+"\n",testOption[i].getQuestionOptions().length);
                     }
                 } catch (Exception e) {
-                    System.err.printf(answerTemplateForError+"\n",testOption[i].getQuestionOptions().length);
+                    System.err.printf(ANSWER_TEMPLATE_FOR_PARSING_ERROR+"\n",testOption[i].getQuestionOptions().length);
                 }
             }
         }
@@ -36,5 +36,9 @@ class Test {
                     j + 1, testOption[i].getQuestionOptions()[j]));
         }
         return questionWithOptions.toString();
+    }
+
+    Questionnaire getQuestionnaire(){
+        return questionnaire;
     }
 }
