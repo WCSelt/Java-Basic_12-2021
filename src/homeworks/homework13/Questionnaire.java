@@ -1,21 +1,21 @@
 package homeworks.homework13;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Questionnaire implements UserSurvey {
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private final Person person = new Person();
     final int[] personAnswers = new int[TestOption.values().length];
     private String result;
+    private final List<String> listWithTemplateForDetailedResult = new ArrayList<>();
 
     Questionnaire(){
         System.out.println("Как вас зовут?");
@@ -48,14 +48,22 @@ public class Questionnaire implements UserSurvey {
 
     String getResult() {
         int countTrueAnswers = 0, countWrongAnswers = 0;
+        listWithTemplateForDetailedResult.add(person.getUserName());
         for (int i = 0; i < personAnswers.length; i++) {
             if (personAnswers[i] == TestOption.values()[i].getTrueTestAnswer()) {
+                addTestOptionToList(TestOption.values()[i].getQuestion(),
+                        TestOption.values()[i].getQuestionOptions()[personAnswers[i]],
+                        TestOption.values()[i].getQuestionOptions()[TestOption.values()[i].getTrueTestAnswer()]);
                 countTrueAnswers++;
             } else {
+                addTestOptionToList(TestOption.values()[i].getQuestion(),
+                        TestOption.values()[i].getQuestionOptions()[personAnswers[i]],
+                        TestOption.values()[i].getQuestionOptions()[TestOption.values()[i].getTrueTestAnswer()]);
                 countWrongAnswers++;
             }
         }
         result = "правильных ответов: " + countTrueAnswers + "\nнеправильных ответов: " + countWrongAnswers;
+        listWithTemplateForDetailedResult.add(result);
         return countTrueAnswers > countWrongAnswers ?
                 String.format("Поздравляем, %s! Вы прошли!%n%s", person.getUserName(), result)
                 : String.format("Сожалеем, %s. Вы не прошли.%n%s", person.getUserName(), result);
@@ -79,7 +87,7 @@ public class Questionnaire implements UserSurvey {
             System.out.println("Всего доброго.");
             System.exit(0);
         } catch (Exception e){
-            throw new Exception("Что-то произошло чуть выше глубин кода", e);
+            throw new Exception("Что-то произошло в методе checkAgreementForDetailedResult()", e);
         }
     }
 
@@ -88,9 +96,11 @@ public class Questionnaire implements UserSurvey {
         try {
             Path path = Paths.get(askPerson());
             if (Files.exists(path)) {
-                try {
+                File file = new File(path.toFile(),"TestResult_"+getDate()+".txt");
+                try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+                        BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(fileOutputStream))){
 
-                    File file = new File(path+"TestResult_"+getDate());
+
                 }
             }
         } catch (Exception e) {
@@ -99,6 +109,11 @@ public class Questionnaire implements UserSurvey {
     }
 
     private String getDate() {
-        return new SimpleDateFormat("dd-MM-yyyy_\"at\"_HH:mm:ss").format(new Date());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy_'at'_HH:mm:ss");
+        return dateFormat.format(new Date());
+    }
+
+    private void addTestOptionToList(String question, String personAnswer, String testAnswer){
+        listWithTemplateForDetailedResult.add(question+": Ваш ответ: "+personAnswer+"Правильный ответ: "+testAnswer);
     }
 }
