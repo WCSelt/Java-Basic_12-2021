@@ -8,7 +8,9 @@ class HomeWork {
             test.beginTest();
             System.out.println("Тестирование завершено.");
             System.out.println(test.getQuestionnaire().getResult());
+            test.getQuestionnaire().checkAgreementForDetailedResult();
         } catch (Exception e) {
+            e.getMessage();
             e.printStackTrace();
         }
     }
