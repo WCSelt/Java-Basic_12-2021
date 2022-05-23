@@ -27,9 +27,6 @@ public class PrescriptionPrice {
         this.amount = new BigDecimal(number);
     }
 
-    /**
-     * <br/>     * Вернуть сумму как строку<br/>
-     */
     public String getAmountAsString() {
         return amount.toString();
     }
@@ -37,7 +34,7 @@ public class PrescriptionPrice {
     /**
      * <br/>     * Вернуть сумму прописью, с точностью до копеек<br/>
      */
-    public String numberToString() {
+    public String getNumberToString() {
         return numberToString(false);
     }
 

@@ -11,7 +11,7 @@ public class FinalProject {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try {
             PrescriptionPrice prescriptionPrice = new PrescriptionPrice(reader.readLine()) ;
-            System.out.println(prescriptionPrice.numberToString());
+            System.out.println(prescriptionPrice.getNumberToString());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
