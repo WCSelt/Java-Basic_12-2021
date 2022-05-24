@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.math.BigDecimal;
 
 public class PrescriptionPrice {
+    private final CurrencyType currencyType = new CurrencyType();
     private final BigDecimal amount;
 
     public PrescriptionPrice(long number) {
@@ -21,7 +22,7 @@ public class PrescriptionPrice {
         this.amount = new BigDecimal(numberString);
     }
 
-    public PrescriptionPrice(String number) {
+    public PrescriptionPrice(String number) throws Exception{
         if (!number.contains("."))
             number += ".0";
         this.amount = new BigDecimal(number);
@@ -42,13 +43,6 @@ public class PrescriptionPrice {
      * <br/>     * Выводим сумму прописью<br/>     * @param checkPenny boolean флаг - показывать копейки или нет<br/>     * @return String Сумма прописью<br/>
      */
     public String numberToString(boolean checkPenny) {
-        String[][] brand = {
-                {"", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"},
-                {"", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"},
-        };
-        String[] str100 = {"", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот"};
-        String[] str11 = {"", "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать", "двадцать"};
-        String[] str10 = {"", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто"};
         String[][] forms = {
                 {"копейка", "копейки", "копеек", "1"},
                 {"рубль", "рубля", "рублей", "0"},
@@ -57,8 +51,6 @@ public class PrescriptionPrice {
                 {"миллиард", "миллиарда", "миллиардов", "0"},
                 {"триллион", "триллиона", "триллионов", "0"},
                 {"квадрилион","квадрилиона","квадрилионов","0"},
-                {"квинтиллион","квинтиллиона","квинтиллионов","0"},
-                {"секстиллион","секстиллиона","секстиллионов","0"},
                 // можно добавлять дальше секстиллионы и т.д.
         };
         // получаем отдельно рубли и копейки
@@ -74,7 +66,7 @@ public class PrescriptionPrice {
             pennyString = "0" + pennyString;
         long currency_tmp = currency;
         // Разбиватель суммы на сегменты по 3 цифры с конца
-        ArrayList segments = new ArrayList();
+        ArrayList<Long> segments = new ArrayList();
         while (currency_tmp > 999) {
             long seg = currency_tmp / 1000;
             segments.add(currency_tmp - (seg * 1000));
@@ -89,7 +81,8 @@ public class PrescriptionPrice {
             if (checkPenny)
                 return o;
             else
-                return o + " " + penny + " " + morph(penny, forms[0][0], forms[0][1], forms[0][2]);
+                return o + " " + penny + " " + morph(penny, currencyType.getPennyWithMorph(0),
+                        currencyType.getPennyWithMorph(1), currencyType.getPennyWithMorph(2));
         }
         // Больше нуля
         int lev = segments.size();
@@ -102,21 +95,30 @@ public class PrescriptionPrice {
             }
             String rs = String.valueOf(ri); // число в строку
             // нормализация
-            if (rs.length() == 1) rs = "00" + rs;// два нулика в префикс?
-            if (rs.length() == 2) rs = "0" + rs; // или лучше один?
+            if (rs.length() == 1) {
+                rs = "00" + rs;// два нулика в префикс?
+            }
+            if (rs.length() == 2) {
+                rs = "0" + rs; // или лучше один?
+            }
             // получаем циферки для анализа
             int r1 = (int) Integer.valueOf(rs.substring(0, 1)); //первая цифра
             int r2 = (int) Integer.valueOf(rs.substring(1, 2)); //вторая
             int r3 = (int) Integer.valueOf(rs.substring(2, 3)); //третья
             int r22 = (int) Integer.valueOf(rs.substring(1, 3)); //вторая и третья
             // Супер-нано-анализатор циферок
-            if (ri > 99) o += str100[r1] + " "; // Сотни
+            if (ri > 99) o += currencyType.getThirdOrderNumbers(r1) + " "; // Сотни
             if (r22 > 20) {// >20
-                o += str10[r2] + " ";
-                o += brand[brandi][r3] + " ";
+                o += currencyType.getSecondOrderNumbers(r2) + " ";
+
+                o += currencyType.getFirstOrderNumbersWithMorph(brandi,r3) + " ";
             } else { // <=20
-                if (r22 > 9) o += str11[r22 - 9] + " "; // 10-20
-                else o += brand[brandi][r3] + " "; // 0-9
+                if (r22 > 9) {
+                    o += currencyType.getSecondTenNumbers(r22 - 9) + " "; // 10-20
+                }
+                else {
+                    o += currencyType.getFirstOrderNumbersWithMorph(brandi,r3) + " "; // 0-9
+                }
             }
             // Единицы измерения (рубли...)
             o += morph(ri, forms[lev][0], forms[lev][1], forms[lev][2]) + " ";
@@ -126,7 +128,8 @@ public class PrescriptionPrice {
         if (checkPenny) {
             o = o.replaceAll(" {2,}", " ");
         } else {
-            o = o + "" + pennyString + " " + morph(penny, forms[0][0], forms[0][1], forms[0][2]);
+            o = o + "" + pennyString + " " + morph(penny, currencyType.getPennyWithMorph(0),
+                    currencyType.getPennyWithMorph(1), currencyType.getPennyWithMorph(2));
             o = o.replaceAll(" {2,}", " ");
         }
         return o;
@@ -143,4 +146,6 @@ public class PrescriptionPrice {
         if (n1 == 1) return f1;
         return f5;
     }
+
+
 }

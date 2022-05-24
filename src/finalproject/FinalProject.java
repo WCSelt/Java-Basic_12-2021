@@ -10,10 +10,13 @@ public class FinalProject {
     public static void main(String[] args) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try {
-            PrescriptionPrice prescriptionPrice = new PrescriptionPrice(reader.readLine()) ;
+            PrescriptionPrice prescriptionPrice = new PrescriptionPrice(reader.readLine());
             System.out.println(prescriptionPrice.getNumberToString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (NullPointerException e) {
+            System.out.println("Пожалуйста, проверьте ввод");
+        } catch (Exception e) {
+            e.getMessage();
+            e.printStackTrace();
         }
     }
 }
