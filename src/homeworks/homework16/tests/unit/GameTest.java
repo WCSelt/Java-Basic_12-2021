@@ -12,20 +12,20 @@ public class GameTest {
     public void testGameWithBlankPlayerNames() {
         String scenario = "Тест с пустыми значениями name";
         try {
-            Throwable actual = null;
+            Exception actual = null;
             try {
                 new Game(new DiceImpl(), new GameWinnerConsolePrinter()).playGame(new Player(""), new Player(""));
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 actual = e;
             }
 
             if (actual == null) {
-                throw new Throwable("Given code does not throw any Exception");
+                throw new Exception("Given code does not throw any Exception");
             } else {
                 Assertions.assertEquals(Exception.class, actual.getClass());
             }
             System.out.printf("\"%s\": passed %n", scenario);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             System.err.printf("\"%s\": fails with message \"%s\" %n", scenario, e.getMessage());
         }
     }
@@ -75,4 +75,7 @@ public class GameTest {
             System.err.printf("\"%s\": fails with message \"%s\" %n", scenario, e.getMessage());
         }
     }
+
+//    @Test
+//    public void testGameWithFakeDiceImpl()
 }
