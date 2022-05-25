@@ -27,7 +27,7 @@ public class CustomerRequestImpl implements CustomerRequest, UserSurvey {
                 try {
                     System.out.println("Введите число или \"exit\":");
                     String number = askCustomer();
-                    validationInputNumber(number);
+//                    validationInputNumber(number);
 
                     if (number.equalsIgnoreCase("exit")) {
                         checkCurrencyAvailability = true;
@@ -39,7 +39,22 @@ public class CustomerRequestImpl implements CustomerRequest, UserSurvey {
                     System.out.println("Выберите одну из предложенных валют: " + Arrays.toString(currencyMorphTemplate));
 
                     currencyName = askCustomer();
-                    validationInputCurrency(currencyName);
+//                    validationInputCurrency(currencyName);
+                    boolean checkCurrencySearch = false;
+                    for (CurrencyMorphTemplate availableCurrency : currencyMorphTemplate) {
+                        if (currencyName.equalsIgnoreCase(availableCurrency.name())) {
+                            prescriptionPrice.getNumberToWordTemplate().setMorph(availableCurrency.getCurrencyMorph(),
+                                    availableCurrency.getPennyMorph());
+                            checkCurrencySearch = true;
+                        }
+                    }
+                    if (currencyName.isEmpty() || currencyName.isBlank()) {
+                        throw new NumberFormatException("Поле для ввода числа не должно быть пустым");
+                    }
+
+                    if (!checkCurrencySearch) {
+                        throw new IOException("В данный момент такую валюту мы не обслуживаем");
+                    }
 
                     System.out.println(prescriptionPrice.getNumberToString());
                 } catch (NumberFormatException | IOException e) {
@@ -59,20 +74,20 @@ public class CustomerRequestImpl implements CustomerRequest, UserSurvey {
 
     }
 
-    void validationInputCurrency(String currency) throws IOException {
-        boolean checkCurrencySearch = false;
-        for (CurrencyMorphTemplate availableCurrency : currencyMorphTemplate) {
-            if (currency.equalsIgnoreCase(availableCurrency.name())) {
-                prescriptionPrice.getNumberToWordTemplate().setMorph(availableCurrency.getCurrencyMorph(),
-                        availableCurrency.getPennyMorph());
-            }
-        }
-        if (currencyName.isEmpty() || currencyName.isBlank()) {
-            throw new NumberFormatException("Поле для ввода числа не должно быть пустым");
-        }
-
-        if (!checkCurrencySearch) {
-            throw new IOException("В данный момент такую валюту мы не обслуживаем");
-        }
-    }
+//    void validationInputCurrency(String currency) throws IOException {
+//        boolean checkCurrencySearch = false;
+//        for (CurrencyMorphTemplate availableCurrency : currencyMorphTemplate) {
+//            if (currency.equalsIgnoreCase(availableCurrency.name())) {
+//                prescriptionPrice.getNumberToWordTemplate().setMorph(availableCurrency.getCurrencyMorph(),
+//                        availableCurrency.getPennyMorph());
+//            }
+//        }
+//        if (currencyName.isEmpty() || currencyName.isBlank()) {
+//            throw new NumberFormatException("Поле для ввода числа не должно быть пустым");
+//        }
+//
+//        if (!checkCurrencySearch) {
+//            throw new IOException("В данный момент такую валюту мы не обслуживаем");
+//        }
+//    }
 }
