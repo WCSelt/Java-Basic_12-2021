@@ -8,20 +8,6 @@ public class PrescriptionPrice {
     private final NumberToWordTemplate numberToWordTemplate = new NumberToWordTemplate();
     private final BigDecimal amount;
 
-    PrescriptionPrice(long number) {
-        String numberString = String.valueOf(number);
-        if (!numberString.contains("."))
-            numberString += ".0";
-        this.amount = new BigDecimal(numberString);
-    }
-
-    PrescriptionPrice(double number) {
-        String numberString = String.valueOf(number);
-        if (!numberString.contains("."))
-            numberString += ".0";
-        this.amount = new BigDecimal(numberString);
-    }
-
     PrescriptionPrice(String number) throws Exception {
         if (!number.contains("."))
             number += ".0";
@@ -30,10 +16,6 @@ public class PrescriptionPrice {
 
     NumberToWordTemplate getNumberToWordTemplate() {
         return numberToWordTemplate;
-    }
-
-    public String getAmountAsString() {
-        return amount.toString();
     }
 
     public String getNumberToString() {
@@ -74,14 +56,11 @@ public class PrescriptionPrice {
             int kind = Integer.parseInt(numberToWordTemplate.getOrdersMorph(thousandthsCount, 3));
             int currentSegment = Integer.parseInt(segment.toString());
 
-            if (currentSegment== 0 && thousandthsCount>1) {// если сегмент ==0 И не последний уровень(там Units)
+            if (currentSegment== 0 && thousandthsCount>1) {
                 thousandthsCount--;
                 continue;
             }
             String segmentString = String.valueOf(currentSegment);
-
-
-
 
             if (segmentString.length() == 1) {
                 segmentString = "00" + segmentString;
