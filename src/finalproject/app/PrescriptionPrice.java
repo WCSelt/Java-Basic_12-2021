@@ -58,14 +58,14 @@ public class PrescriptionPrice {
         StringBuilder result = new StringBuilder();
 
         if (currency == 0) {
-            result = new StringBuilder("ноль " + morph(0, numberToWordTemplate.getCurrencyMorph(0),
-                    numberToWordTemplate.getCurrencyMorph(1),
-                    numberToWordTemplate.getCurrencyMorph(2)));
+            result = new StringBuilder("ноль " + morph(0, numberToWordTemplate.getOrdersMorph(1,0),
+                    numberToWordTemplate.getOrdersMorph(1,1),
+                    numberToWordTemplate.getOrdersMorph(1,2)));
             if (checkPenny) {
                 return result.toString();
             } else {
-                return result + " " + penny + " " + morph(penny, numberToWordTemplate.getPennyMorph(0),
-                        numberToWordTemplate.getPennyMorph(1), numberToWordTemplate.getPennyMorph(2));
+                return result + " " + penny + " " + morph(penny, numberToWordTemplate.getOrdersMorph(0,0),
+                        numberToWordTemplate.getOrdersMorph(0,1), numberToWordTemplate.getOrdersMorph(0,2));
             }
         }
 
@@ -100,7 +100,6 @@ public class PrescriptionPrice {
             }
             if (secondTenValue > 20) {
                 result.append(numberToWordTemplate.getSecondOrderNumbers(tensValue)).append(" ");
-
                 result.append(numberToWordTemplate.getFirstOrderNumbersMorph(kind, unitValue)).append(" ");
             } else {
                 if (secondTenValue > 9) {
@@ -110,15 +109,15 @@ public class PrescriptionPrice {
                 }
             }
 
-            if (thousandthsCount == 1) {
-                result.append(morph(currentSegment, numberToWordTemplate.getCurrencyMorph(0),
-                        numberToWordTemplate.getCurrencyMorph(1),
-                        numberToWordTemplate.getCurrencyMorph(2))).append(" ");
-                thousandthsCount--;
-            } else {
-                result.append(morph(currentSegment, numberToWordTemplate.getOrdersMorph(thousandthsCount, 0),
-                        numberToWordTemplate.getOrdersMorph(thousandthsCount, 1),
-                        numberToWordTemplate.getOrdersMorph(thousandthsCount, 2))).append(" ");
+            result.append(morph(currentSegment, numberToWordTemplate.getOrdersMorph(thousandthsCount, 0),
+                    numberToWordTemplate.getOrdersMorph(thousandthsCount, 1),
+                    numberToWordTemplate.getOrdersMorph(thousandthsCount, 2))).append(" ");
+            thousandthsCount--;
+
+            if (checkPenny){
+                result.append(morph(currentSegment, numberToWordTemplate.getOrdersMorph(0,0),
+                        numberToWordTemplate.getOrdersMorph(0,1),
+                        numberToWordTemplate.getOrdersMorph(0,2))).append(" ");
                 thousandthsCount--;
             }
         }
@@ -126,8 +125,8 @@ public class PrescriptionPrice {
         if (checkPenny) {
             result = new StringBuilder(result.toString().replaceAll(" {2,}", " "));
         } else {
-            result.append(pennyString).append(" ").append(morph(penny, numberToWordTemplate.getPennyMorph(0),
-                    numberToWordTemplate.getPennyMorph(1), numberToWordTemplate.getPennyMorph(2)));
+            result.append(pennyString).append(" ").append(morph(penny, numberToWordTemplate.getOrdersMorph(0,0),
+                    numberToWordTemplate.getOrdersMorph(0,1), numberToWordTemplate.getOrdersMorph(0,2)));
             result = new StringBuilder(result.toString().replaceAll(" {2,} ", " "));
         }
         return result.toString();

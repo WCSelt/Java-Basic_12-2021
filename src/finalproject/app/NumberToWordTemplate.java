@@ -57,6 +57,12 @@ class NumberToWordTemplate {
     }
 
     String getOrdersMorph(int index1, int index2) {
+        if (index1 == 0){
+            return getPennyMorph(index2);
+        }
+        if (index1 == 1){
+            return getCurrencyMorph(index2);
+        }
         return ordersMorph[index1][index2];
     }
 }
