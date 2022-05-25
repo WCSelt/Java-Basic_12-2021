@@ -1,5 +1,5 @@
 package finalproject.app;
 
-class CustomerRequest {
-
+public interface CustomerRequest {
+    String getResult();
 }

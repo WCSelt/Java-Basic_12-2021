@@ -1,6 +1,8 @@
 package finalproject.app;
 
 class NumberToWordTemplate {
+    private String[] currencyMorph;
+    private String[] pennyMorph;
     private final String[][] firstOrderNumbersWithMorph = {
             {"", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"},
             {"", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"},
@@ -16,15 +18,14 @@ class NumberToWordTemplate {
             "семьсот", "восемьсот", "девятьсот"};
 
     private final String[][] ordersMorph = {
+            pennyMorph,
+            currencyMorph,
             {"тысяча", "тысячи", "тысяч", "1"},
             {"миллион", "миллиона", "миллионов", "0"},
             {"миллиард", "миллиарда", "миллиардов", "0"},
             {"триллион", "триллиона", "триллионов", "0"},
             {"квадрилион","квадрилиона","квадрилионов","0"},
     };
-
-    private String[] currencyMorph;
-    private String[] pennyMorph;
 
     void setMorph(String[] currencyMorph,String[] pennyMorph) {
         this.currencyMorph = currencyMorph;
