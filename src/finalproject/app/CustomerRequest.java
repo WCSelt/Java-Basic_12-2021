@@ -1,5 +1,5 @@
 package finalproject.app;
 
 public interface CustomerRequest {
-    String getResult();
+    String getResult() throws Exception;
 }
