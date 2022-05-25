@@ -23,35 +23,39 @@ class NumberToWordTemplate {
             {"квадрилион","квадрилиона","квадрилионов","0"},
     };
 
-    private final String[] rubWithMorph = {"рубль", "рубля", "рублей", "0"};
+    private String[] currencyMorph;
+    private String[] pennyMorph;
 
-    private final String[] pennyWithMorph = {"копейка", "копейки", "копеек", "1"};
+    void setMorph(String[] currencyMorph,String[] pennyMorph) {
+        this.currencyMorph = currencyMorph;
+        this.pennyMorph = pennyMorph;
+    }
 
-    public String getFirstOrderNumbersMorph(int index1, int index2) {
+    String getCurrencyMorph(int index) {
+        return currencyMorph[index];
+    }
+
+    String getPennyMorph(int index) {
+        return pennyMorph[index];
+    }
+
+    String getFirstOrderNumbersMorph(int index1, int index2) {
         return firstOrderNumbersWithMorph[index1][index2];
     }
 
-    public String getSecondTenNumbers(int index) {
+    String getSecondTenNumbers(int index) {
         return secondTenNumbers[index];
     }
 
-    public String getSecondOrderNumbers(int index) {
+    String getSecondOrderNumbers(int index) {
         return secondOrderNumbers[index];
     }
 
-    public String getThirdOrderNumbers(int index) {
+    String getThirdOrderNumbers(int index) {
         return thirdOrderNumbers[index];
     }
 
-    public String getOrdersMorph(int index1, int index2) {
+    String getOrdersMorph(int index1, int index2) {
         return ordersMorph[index1][index2];
-    }
-
-    public String getRubWithMorph(int index) {
-        return rubWithMorph[index];
-    }
-
-    public String getPennyWithMorph(int index) {
-        return pennyWithMorph[index];
     }
 }
