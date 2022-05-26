@@ -8,13 +8,13 @@ public class PrescriptionPrice {
     private final NumberToWordTemplate numberToWordTemplate = new NumberToWordTemplate();
     private final BigDecimal amount;
 
-    PrescriptionPrice(String number) throws Exception {
+    public PrescriptionPrice(String number) throws Exception {
         if (!number.contains("."))
             number += ".0";
         this.amount = new BigDecimal(number);
     }
 
-    NumberToWordTemplate getNumberToWordTemplate() {
+    public NumberToWordTemplate getNumberToWordTemplate() {
         return numberToWordTemplate;
     }
 
