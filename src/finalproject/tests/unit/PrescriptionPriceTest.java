@@ -66,7 +66,7 @@ public class PrescriptionPriceTest {
     }
 
     @Test
-    public void testOtherCurrencies() {
+    public void testAvailabilityOtherCurrencies() {
         String scenario = "Тест на наличие других валют";
         try {
             String inputNumberTemplate = "1";
