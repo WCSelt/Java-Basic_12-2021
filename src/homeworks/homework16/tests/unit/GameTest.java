@@ -3,6 +3,8 @@ package homeworks.homework16.tests.unit;
 import homeworks.homework16.app.game.*;
 import homeworks.homework16.tests.assertions.Assertions;
 import homeworks.homework16.tests.unit.fake.FakeDiceImpl;
+import homeworks.homework16.tests.unit.fake.FakeDiceImpl_V2;
+import homeworks.homework16.tests.unit.fake.FakeGameWinnerConsolePrinter;
 import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -76,6 +78,20 @@ public class GameTest {
         }
     }
 
-//    @Test
-//    public void testGameWithFakeDiceImpl()
+    @Test
+    public void testGameWithFakeGameWinnerConsole(){
+        String scenario = "Проверка на подлинность победителя";
+        try {
+            Player expectedPlayer = new Player("Вася");
+            FakeGameWinnerConsolePrinter fakeGameWinnerConsolePrinter = new FakeGameWinnerConsolePrinter();
+            new Game(new FakeDiceImpl_V2(), fakeGameWinnerConsolePrinter).playGame(expectedPlayer, new Player("Игорь"));
+            Player actualPlayer = fakeGameWinnerConsolePrinter.getPlayer();
+
+            Assertions.assertEquals(expectedPlayer,actualPlayer);
+
+            System.out.printf("\"%s\": passed %n", scenario);
+        } catch (Exception e) {
+            System.err.printf("\"%s\": fails with message \"%s\" %n", scenario, e.getMessage());
+        }
+    }
 }
