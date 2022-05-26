@@ -7,7 +7,8 @@ public class AllTests {
     public void runTests () {
         new GameTest().testGameWithBlankPlayerNames();
         new GameTest().testGameWithFakeDiceImpl();
-        new DiceImplTest().testDiceImplValuesValidation();
         new GameTest().testGameWithNullPlayers();
+        new GameTest().testGameWithFakeGameWinnerConsole();
+        new DiceImplTest().testDiceImplValuesValidation();
     }
 }
