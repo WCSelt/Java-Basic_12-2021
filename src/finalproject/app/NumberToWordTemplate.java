@@ -1,6 +1,6 @@
 package finalproject.app;
 
-class NumberToWordTemplate {
+public class NumberToWordTemplate {
     private String[] currencyMorph;
     private String[] pennyMorph;
     private final String[][] firstOrderNumbersWithMorph = {
@@ -27,7 +27,7 @@ class NumberToWordTemplate {
             {"квадрилион","квадрилиона","квадрилионов","0"},
     };
 
-    void setMorph(String[] currencyMorph,String[] pennyMorph) {
+    public void setMorph(String[] currencyMorph,String[] pennyMorph) {
         this.currencyMorph = currencyMorph;
         this.pennyMorph = pennyMorph;
     }
